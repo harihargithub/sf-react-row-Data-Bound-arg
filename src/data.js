@@ -102,7 +102,7 @@ var stringData = JSON.stringify([
         'CustomerID': 'WELLI',
         'OrderDate': '1996-07-15T00:00:00.000Z',
         'ShippedDate': '1996-07-17T00:00:00.000Z',
-        'Freight': 13.97,
+        'Freight': 53.97,
         'ShipName': 'Wellington Importadora',
         'ShipAddress': 'Rua do Mercado, 12',
         'ShipCity': 'Resende',
