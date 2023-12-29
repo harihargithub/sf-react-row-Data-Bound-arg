@@ -1,5 +1,5 @@
 /* css */
-.e-grid .e-row.below-30  .e-rowcell{
+/* .e-grid .e-row.below-30  .e-rowcell{
   color: red;
 }
 .e-grid .e-row.below-80  .e-rowcell{
@@ -9,4 +9,15 @@
   color:rgb(18, 6, 134);
 }
   
-  
+.e-icons {
+  font-family: 'Material Icons';
+  font-size: 24px;
+}
+
+.e-true:before {
+  content: 'check_circle';
+}
+
+.e-false:before {
+  content: 'cancel';
+} */

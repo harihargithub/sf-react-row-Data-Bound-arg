@@ -1,38 +1,56 @@
 import { render } from 'react-dom';
 import './index.css';
-import * as React from 'react';
-import { GridComponent, ColumnsDirective, ColumnDirective } from '@syncfusion/ej2-react-grids';
-import { orderDetails } from './dataRowBoundArgs';
-import { SampleBase } from './sample-base';
-export class Default extends SampleBase {
+import React, { useEffect, useRef } from 'react';
+import {
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Group,
+  Inject,
+} from '@syncfusion/ej2-react-grids';
+import { dataDetails } from './dataGrpCaptionCond';
 
-  queryCellInfo(args) {
-    if (args.column.field == 'OrderID') {
-      if (args.data.OrderID % 2 == 0) { //based on condition we have set the font color to the cell 
-        args.cell.style.color = 'red';
-      }
-      else {
-        args.cell.style.color = 'blue';
-      }
+const OverView = () => {
+  const grid = useRef(null);
+
+  const groupSettings = {
+    columns: ['Verified'],
+  };
+
+  const queryCellInfo = (args) => {
+    if (args.column.field === 'Verified' && args.cell.classList.contains('e-groupcaption')) {
+      const iconClass = args.data.key === 'true' ? 'e-icons e-true' : 'e-icons e-false';
+      args.cell.innerHTML = `<span class="${iconClass}"></span> ${args.data.key === 'true' ? 'Verified' : 'Not Verified'}`;
     }
-  }
+  };
 
-    render() {
-        return (<div className='control-pane'>
-        <div className='control-section'>
-          <GridComponent dataSource={orderDetails} height='350' queryCellInfo={this.queryCellInfo.bind(this)}>
-            <ColumnsDirective>
-              <ColumnDirective field='OrderID' headerText='Order ID' width='120' textAlign='Right'></ColumnDirective>
-              <ColumnDirective field='CustomerName' headerText='Customer Name' width='150'></ColumnDirective>
-              <ColumnDirective field='OrderDate' headerText='Order Date' width='130' format='yMd' textAlign='Right'/>
-              <ColumnDirective field='Freight' headerText='Freight' width='120' format='C2' textAlign='Right'/>
-              <ColumnDirective field='ShippedDate' headerText='Shipped Date' width='130' format='yMd' textAlign='Right'></ColumnDirective>
-              <ColumnDirective field='ShipCountry' headerText='Ship Country' width='150'></ColumnDirective>
-            </ColumnsDirective>
-          </GridComponent>
-        </div>
-      </div>);
-    }
-}
+  return (
+    <GridComponent
+      ref={grid}
+      groupSettings={groupSettings}
+      dataSource={dataDetails}
+      allowGrouping={true}
+      queryCellInfo={queryCellInfo}
+    >
+      <ColumnsDirective>
+        <ColumnDirective
+          field="OrderID"
+          headerText="Order ID"
+          width="120"
+          textAlign="Right"
+          isPrimaryKey={true}
+        />
+        <ColumnDirective
+          field="Freight"
+          headerText="Freight"
+          format="C2"
+          width="120"
+        />
+        <ColumnDirective field="Verified" headerText="Verified" width="120" />
+      </ColumnsDirective>
+      <Inject services={[Group]} />
+    </GridComponent>
+  );
+};
 
-render(<Default />, document.getElementById('sample'));
+render(<OverView />, document.getElementById('sample'));
