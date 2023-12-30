@@ -1,3 +1,4 @@
+//indexRowDataBoundArgs.js
 import { render } from 'react-dom';
 import './index.css';
 import { getValue } from '@syncfusion/ej2-base';

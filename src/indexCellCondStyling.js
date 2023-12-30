@@ -1,8 +1,9 @@
+// indexCellCondStyling.js
 import { render } from 'react-dom';
 import './index.css';
 import * as React from 'react';
 import { GridComponent, ColumnsDirective, ColumnDirective } from '@syncfusion/ej2-react-grids';
-import { orderDetails } from './dataRowBoundArgs';
+import { orderDetails } from './dataCellCondStyling';
 import { SampleBase } from './sample-base';
 export class Default extends SampleBase {
 

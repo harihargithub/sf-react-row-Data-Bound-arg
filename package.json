@@ -40,6 +40,7 @@
     "@syncfusion/ej2-react-spreadsheet": "18.3.40",
     "@syncfusion/ej2-react-treegrid": "18.3.40",
     "@syncfusion/ej2-react-treemap": "18.3.35",
+    "axios": "^1.6.3",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
