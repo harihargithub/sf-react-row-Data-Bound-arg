@@ -1,10 +1,10 @@
+// indexSpinner.js
 import React, { useEffect, useRef } from 'react';
 import { render } from 'react-dom';
 import { GridComponent, ColumnsDirective, ColumnDirective, Page, Group, Sort, Inject } from '@syncfusion/ej2-react-grids';
-import { createSpinner, showSpinner, hideSpinner, setSpinner } from '@syncfusion/ej2-react-popups';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-react-popups';
 import axios from 'axios';
 import './index.css';
-import { Data } from './data';
 
 const OrderService = {
   BASE_URL: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
@@ -41,15 +41,14 @@ const CustomBinding = () => {
 
   const created = () => {
     const spinnerTarget = document.querySelector('#customSpinner');
-    setSpinner({ template: '<div style="width:100%;height:100%" class="custom-rolling"><div></div></div>' }, spinnerTarget);
-    showSpinner(spinnerTarget);
+    createSpinner({ target: spinnerTarget, width: '20px' });
   };
 
   const dataStateChange = (state) => {
     const spinnerTarget = document.querySelector('#customSpinner');
-  
+
     showSpinner(spinnerTarget); // Show the spinner before fetching data
-  
+
     OrderService.execute(state)
       .then(gridData => {
         console.log('Data received:', gridData);
@@ -59,10 +58,7 @@ const CustomBinding = () => {
         console.error('Error fetching data:', error);
       })
       .finally(() => {
-        // Delay hiding the spinner by 2 seconds to ensure it is shown
-        setTimeout(() => {
-          hideSpinner(spinnerTarget); // Hide the spinner regardless of success or failure
-        }, 2000);
+        hideSpinner(spinnerTarget); // Hide the spinner regardless of success or failure
       });
   };
 
