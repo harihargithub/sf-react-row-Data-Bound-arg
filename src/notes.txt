@@ -1,0 +1,124 @@
+
+Change Default Group Caption based on condition in React Grid:
+
+I apologize for the confusion. The Syncfusion Grid component's `captionTemplate` does not support JSX in the function-based component. It only supports string-based templates. 
+
+However, you can still achieve the desired result by using the `queryCellInfo` event to manipulate the group caption after it has been rendered. Here's how you can do it:
+
+```jsx
+import { render } from 'react-dom';
+import './index.css';
+import React, { useEffect, useRef } from 'react';
+import {
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Group,
+  Inject,
+} from '@syncfusion/ej2-react-grids';
+import { dataDetails } from './dataGrpCaptionCond';
+
+const OverView = () => {
+  const grid = useRef(null);
+
+  const groupSettings = {
+    columns: ['Verified'],
+  };
+
+  const queryCellInfo = (args) => {
+    if (args.column.field === 'Verified' && args.cell.classList.contains('e-groupcaption')) {
+      args.cell.innerHTML = args.data.key === 'true' ? 'Verified' : 'Not Verified';
+    }
+  };
+
+  return (
+    <GridComponent
+      ref={grid}
+      groupSettings={groupSettings}
+      dataSource={dataDetails}
+      allowGrouping={true}
+      queryCellInfo={queryCellInfo}
+    >
+      <ColumnsDirective>
+        <ColumnDirective
+          field="OrderID"
+          headerText="Order ID"
+          width="120"
+          textAlign="Right"
+          isPrimaryKey={true}
+        />
+        <ColumnDirective
+          field="Freight"
+          headerText="Freight"
+          format="C2"
+          width="120"
+        />
+        <ColumnDirective field="Verified" headerText="Verified" width="120" />
+      </ColumnsDirective>
+      <Inject services={[Group]} />
+    </GridComponent>
+  );
+};
+
+render(<OverView />, document.getElementById('sample'));
+```
+
+In this code, the `queryCellInfo` event is used to change the group caption after it has been rendered. The `args.cell.classList.contains('e-groupcaption')` check ensures that this only happens for group caption cells.
+
+Sure, I'd be happy to explain.
+
+The `GridComponent` from Syncfusion is a powerful component that allows you to display and manipulate tabular data. One of its features is the ability to group data by certain columns. In your case, you're grouping by the 'Verified' column.
+
+The `groupSettings` prop is used to configure the grouping behavior. The `columns` property within `groupSettings` is an array of the field names by which the data should be grouped. In your case, it's `['Verified']`, which means the data will be grouped by the 'Verified' column.
+
+The `queryCellInfo` prop is a function that is called for each cell in the grid. It receives an argument `args` which contains information about the cell, including the cell element itself (`args.cell`), the column of the cell (`args.column`), and the data for the row the cell is in (`args.data`).
+
+In the `queryCellInfo` function, you're checking if the cell is a group caption cell by checking if it has the 'e-groupcaption' class. If it is, you're changing the inner HTML of the cell based on the key of the group data (`args.data.key`), which is either 'true' or 'false' (as a string) depending on the 'Verified' value of the grouped data.
+
+If the key is 'true', you're setting the inner HTML of the cell to 'Verified', and if it's 'false', you're setting it to 'Not Verified'. This effectively changes the group captions to 'Verified' or 'Not Verified' based on whether the grouped data is verified or not.
+
+The `ColumnsDirective` and `ColumnDirective` components are used to define the columns of the grid. Each `ColumnDirective` represents a column and takes props like `field` (the field name in the data that the column should display), `headerText` (the text to display in the column header), `width` (the width of the column), and `textAlign` (the text alignment in the column).
+
+The `Inject` component and `services` prop are used to inject additional features into the grid. In your case, you're injecting the `Group` service to enable the grouping feature.
+
+Finally, the `GridComponent` is rendered with the `render` function from 'react-dom', and it's attached to the DOM element with the id 'sample'.
+
+
+
+Access to XMLHttpRequest at 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders?$skip=0&$top=150&$inlinecount=allpages&$format=json' from origin 'https://sfreactrowdataboundarg-gvfi--3000--a2aabdd9.local-credentialless.webcontainer.io' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+The error message indicates that the request to the provided URL is being blocked by the browser due to the CORS (Cross-Origin Resource Sharing) policy. This is a security feature that prevents requests to different domains unless the server specifies that it allows such requests.
+
+Unfortunately, this is not something that can be fixed on the client side. The server at `https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders` needs to include the `Access-Control-Allow-Origin` header in its responses to allow requests from your domain.
+
+If you don't have control over the server, you might need to set up a proxy server that adds the necessary CORS headers. This proxy server would make the request to the actual server and then return the response to your client-side code.
+
+However, please note that setting up a proxy server is beyond the scope of this assistant's capabilities. You might want to consult with a backend developer or a network administrator for help with this.
+
+As for the spinner, it's not showing because the data fetching promise is rejected immediately due to the CORS error, and `hideSpinner(spinnerTarget);` is called right after that in the `catch` block of the promise. Once the CORS issue is resolved and the data fetching promise is resolved successfully, the spinner should show up while the data is loading and hide once the data has loaded.
+
+I apologize for the inconvenience. It seems like the CORS issue is preventing the request to the external service. Unfortunately, browsers block cross-origin requests that do not include the appropriate CORS headers, and this is causing the network error.
+
+To resolve this issue, you can try using a CORS proxy or make the request from a server-side component that can forward the request to the target API with the necessary headers.
+
+Here's how you can use a CORS proxy:
+
+Use a CORS proxy service, such as https://cors-anywhere.herokuapp.com/, to proxy your request.
+
+Modify your OrderService to use the CORS proxy. Replace the BASE_URL with the proxy URL, and append your target URL:
+
+javascript
+Copy code
+const OrderService = {
+  BASE_URL: 'https://cors-anywhere.herokuapp.com/https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
+
+  // ... rest of the code
+};
+Please note that using a CORS proxy for production applications is not recommended due to security reasons. In a production environment, you should have a server-side component to make the requests to the external API.
+
+Alternatively, you can create a simple Express server to serve your React app and act as a proxy for the API requests. Let me know if you would like assistance with that approach.
+
+
+
+
+

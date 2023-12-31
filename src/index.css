@@ -1,5 +1,6 @@
 /* css */
-.e-grid .e-row.below-30  .e-rowcell{
+
+/* .e-grid .e-row.below-30  .e-rowcell{
   color: red;
 }
 .e-grid .e-row.below-80  .e-rowcell{
@@ -8,5 +9,53 @@
 .e-grid .e-row.above-80  .e-rowcell{
   color:rgb(18, 6, 134);
 }
-  
-  
+  */
+
+  /*
+.e-icons {
+  font-family: 'Material Icons';
+  font-size: 24px;
+}
+
+.e-true:before {
+  content: 'check_circle';
+}
+
+.e-false:before {
+  content: 'cancel';
+} */
+
+/*
+@import url('https://cdn.syncfusion.com/ej2/bootstrap5.css');
+*/
+
+
+/* 
+.e-true::before {
+  content: "\2713"; /* Unicode character for check mark 
+  color: green;
+}
+
+.e-false::before {
+  content: "\2717"; /* Unicode character for cross mark 
+  color: red;
+} */
+
+.e-spinner-pane .e-spinner-inner .e-spin-bootstrap {
+  fill: green;
+  stroke: green;
+}
+
+
+#customSpinner {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  /* z-index: 1;  Ensure the spinner is above other elements */
+}
