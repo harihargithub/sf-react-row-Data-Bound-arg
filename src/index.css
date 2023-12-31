@@ -49,10 +49,13 @@
 
 #customSpinner {
   width: 100%;
-  height: 100px;
-  position: relative;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-  background-color: #fff; /* Add a background color so you can see the div */ 
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  /* z-index: 1;  Ensure the spinner is above other elements */
 }
