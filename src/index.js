@@ -16,7 +16,7 @@ const OrderService = {
   getData(state) {
     const { skip, take, sorted } = state;
     const pageQuery = `$skip=${skip}&$top=${take}`;
-    const sortQuery = sorted && sorted.length ? `&$orderby=` + sorted.map(obj => `${obj.name} ${obj.direction === "ascending" ? "" : "desc"}`).join(',') : '';
+    const sortQuery = sorted && sorted.length ? `&$orderby=` + sorted.map(obj => `${obj.name} ${obj.direction === "ascending" ? "asc" : "desc"}`).join(',') : '';
     const url = `${this.BASE_URL}?${pageQuery}${sortQuery}&$count=true&$format=json`;
 
     return axios.get(url)
@@ -47,19 +47,37 @@ const CustomBinding = () => {
   const dataStateChange = (state) => {
     const spinnerTarget = document.querySelector('#customSpinner');
 
-    showSpinner(spinnerTarget); // Show the spinner before fetching data
+    // Show the spinner before fetching data
+    
 
-    OrderService.execute(state)
-      .then(gridData => {
-        console.log('Data received:', gridData);
-        gridRef.current.dataSource = gridData;
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      })
-      .finally(() => {
-        hideSpinner(spinnerTarget); // Hide the spinner regardless of success or failure
-      });
+    // Add a conditional check for spinnerTarget
+    if (spinnerTarget) {
+      OrderService.execute(state)
+        .then(gridData => {
+          console.log('Initial Data received:', gridData);
+          // Check if the sorting information is correctly applied
+        const sortInfo = state.sorted;
+        console.log('Sorting Information:', sortInfo);
+
+        // Check if the sorting information is passed to the OData service correctly
+        const urlWithSort = OrderService.BASE_URL + `?$skip=${state.skip}&$top=${state.take}` +
+          (sortInfo && sortInfo.length ? `&$orderby=` + sortInfo.map(obj => `${obj.name} ${obj.direction === "ascending" ? "asc" : "desc"}`).join(',') : '');
+
+        console.log('URL with Sorting:', urlWithSort);
+          gridRef.current.dataSource = gridData;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        })
+        .finally(() => {
+          showSpinner(spinnerTarget);
+          setTimeout(() => {
+            hideSpinner(spinnerTarget); // Hide the spinner regardless of success or failure
+          }, 1000);
+        });
+    } else {
+      console.error('Spinner target not found');
+    }
   };
 
   return (
