@@ -7,7 +7,7 @@ import axios from 'axios';
 import './index.css';
 
 const OrderService = {
-  BASE_URL: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
+  BASE_URL: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
 
   execute(state) {
     return this.getData(state);
@@ -16,13 +16,13 @@ const OrderService = {
   getData(state) {
     const { skip, take, sorted } = state;
     const pageQuery = `$skip=${skip}&$top=${take}`;
-    const sortQuery = sorted && sorted.length ? `&$orderby=` + sorted.map(obj => `${obj.name} ${obj.direction}`).join(',') : '';
-    const url = `${this.BASE_URL}?${pageQuery}${sortQuery}&$inlinecount=allpages&$format=json`;
+    const sortQuery = sorted && sorted.length ? `&$orderby=` + sorted.map(obj => `${obj.name} ${obj.direction === "ascending" ? "" : "desc"}`).join(',') : '';
+    const url = `${this.BASE_URL}?${pageQuery}${sortQuery}&$count=true&$format=json`;
 
     return axios.get(url)
       .then(response => {
         const data = response.data;
-        return { result: data['d']['results'], count: parseInt(data['d']['__count'], 10) };
+        return { result: data['value'], count: parseInt(data['@odata.count'], 10) };
       })
       .catch(error => {
         console.error('Error fetching data:', error);
