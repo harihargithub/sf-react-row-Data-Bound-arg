@@ -16,20 +16,13 @@ const OverView = () => {
 
   const groupSettings = {
     columns: ['Verified'],
+    captionTemplate: "<span class='groupItems'> ${if(key)} <span class='e-icons e-check'></span> Verified - ${count} ${else} <span class='e-icons e-close'></span> Not Verified - ${count} ${/if} </span>"
   };
-
-  /*
-const queryCellInfo = (args) => {
-    if (args.column.field === 'Verified' && args.cell.classList.contains('e-groupcaption')) {
-      args.cell.innerHTML = args.data.key === 'true' ? 'Verified' : 'Not Verified';
-    }
-  };
-  */
 
   const queryCellInfo = (args) => {
-    if (args.column.field === 'Verified' && args.cell.classList.contains('e-groupcaption')) {
-      const iconClass = args.data.key === 'true' ? 'e-icons e-true' : 'e-icons e-false';
-      args.cell.innerHTML = `<span class="${iconClass}"></span> ${args.data.key === 'true' ? 'Verified' : 'Not Verified'}`;
+    if (args.column.field === 'Verified') {
+      const iconClass = args.data.Verified === true ? 'e-icons e-check' : 'e-icons e-close';
+      args.cell.innerHTML = `<span class="${iconClass}"></span> ${args.data.Verified === true ? 'Verified' : 'Not Verified'}`;
     }
   };
 
