@@ -118,6 +118,38 @@ Please note that using a CORS proxy for production applications is not recommend
 
 Alternatively, you can create a simple Express server to serve your React app and act as a proxy for the API requests. Let me know if you would like assistance with that approach.
 
+IndexSpnner.js:
+The setTimeout function is used to delay the execution of hideSpinner by 2 seconds (2000 milliseconds). You can adjust the timeout duration according to your preferences.
+
+n the provided code, the spinner is set up and used in the created and dataStateChange functions. Here's a breakdown of when the spinner will be displayed and hidden:
+
+created Function:
+
+The created function is triggered when the GridComponent is created.
+In this function, the spinner is created and displayed using showSpinner.
+dataStateChange Function:
+
+The dataStateChange function is called when there is a change in the data state (e.g., paging, sorting).
+At the beginning of this function, the spinner is displayed using showSpinner(spinnerTarget) to indicate that data is being fetched.
+After the data is successfully loaded or an error occurs (in the finally block), the spinner is hidden using hideSpinner(spinnerTarget).
+With the added setTimeout function in the finally block, the spinner will be visible for 2 seconds before being hidden, simulating a delay for better user experience.
+
+So, the spinner will be shown during the initial load of the page (in the created function) and whenever there is a change in the data state (in the dataStateChange function). It will be hidden after a 2-second delay, regardless of whether the data fetch is successful or encounters an error.
+
+Regarding the skip and take parameters:
+
+skip: It specifies the number of records to be skipped from the beginning. In the context of paging, it determines the starting index of the records to be retrieved.
+
+take: It specifies the number of records to be taken or retrieved. It represents the page size, indicating how many records should be included in a single page of data.
+
+In the context of your code, { skip: 0, take: 150 } means you want to fetch the first 150 records from the data source. This is typically used in scenarios where you implement server-side paging, and the skip and take parameters help in fetching the appropriate subset of data for a particular page.
+
+es, that's correct. In the response { result: Array(150), count: 830}, it indicates that the current response contains an array of 150 records, and there are a total of 830 records available. The result array typically holds the subset of records that are being returned based on the specified skip and take parameters or the current page size.
+
+
+
+
+
 
 
 
